@@ -390,11 +390,11 @@ Day-mode, within the same day:
 | 38.2% → 61.8% | 69% |
 | 61.8% → 78.6% | 60% |
 | 78.6% → full ATR | 55% |
-| Close → full ATR cumulative | 14% |
+| Close → full ATR cumulative | ~2% |
 | Bull GG baseline completion | 63.0% (n=3,411) |
 | Bear GG baseline completion | 65.0% (n=3,200) |
 
-For live decisions, prefer the internally consistent level-to-level sequence: Trigger→38.2 = 80%, 38.2→61.8 = 69%, full ATR cumulative = 14%.
+For live decisions, prefer the internally consistent level-to-level sequence: Trigger→38.2 = 80%, 38.2→61.8 = 69%, full ATR cumulative is closer to ~2%.
 
 ### 5.3 Bilbo Golden Gate: 1h PO filter
 
@@ -1198,7 +1198,7 @@ Conditioned on previous week weekly PO:
 
 | Edge / study | Best live-use takeaway |
 |---|---|
-| Level-to-level | Trigger→38.2 = 80%; 38.2→61.8 = 69%; full ATR cumulative only 14% |
+| Level-to-level | Trigger→38.2 = 80%; 38.2→61.8 = 69%; full ATR cumulative closer to ~2% |
 | Baseline GG | Bull GG 63%; Bear GG 65% |
 | Bilbo GG | Bull PO high+rising 77.7%; Bear PO low+falling 90.2% |
 | Bilbo continuation | Bear low+falling full ATR 66% |
@@ -1263,7 +1263,7 @@ Underlying-level probabilities do not automatically become option-trade probabil
 6. **Upward drift bias**: 25-year SPY history favors bull breaks on higher timeframes.
 7. **Extracted doctrine**: some Saty claims come from OCR/vision extraction of screenshots. Use as doctrine/terminology, not validated quant.
 8. **Avoid example contamination**: example chart tickers, dates, visible panels are not rules unless doctrine text explicitly states them.
-9. **Conflicting close→trigger number**: one current framing says close→±Trigger was reached on 99.2% of days in either direction; an older level-to-level framing cites 80%. Prefer the internally consistent live sequence of Trigger→38.2 = 80%, 38.2→61.8 = 69%, and full ATR cumulative = 14%, while preserving the conflict if precision matters.
+9. **Conflicting close→trigger number**: one current framing says close→±Trigger was reached on 99.2% of days in either direction; an older level-to-level framing cites 80%. Prefer the internally consistent live sequence of Trigger→38.2 = 80%, 38.2→61.8 = 69%, and full ATR cumulative closer to ~2%, while preserving the conflict if precision matters.
 10. **Execution matters**: options spreads, 0DTE greeks, slippage, IV, and strike selection can dominate the theoretical underlying move edge.
 
 ---
