@@ -339,7 +339,7 @@ Saty doctrine: identify market condition first, then apply the matching primary 
 
 - Trigger break and hold.
 - 10m compression → expansion.
-- Bilbo Box break.
+- Bilbo Box break (1h and up only).
 - Opening range break.
 - Resistance/support break and retest.
 
@@ -724,14 +724,12 @@ Definition: Bilbo Box is the range of the first 5 compression bars. Once the box
 - Close-outside confirmation.
 - Retest.
 
-Sample: 50,889 break events across 3m/10m/1h/4h/1d, 2000–2026.
+Sample: 50,889 break events across 3m/10m/1h/4h/1d, 2000–2026. **Live use is hourly and up only**: the intraday frames (3m/10m) showed only marginal texture (~51% hit, ~+0.03R median) with no usable standalone edge, and are excluded from the playbook.
 
-10-bar Net-R median:
+10-bar Net-R median (tradable frames):
 
 | TF | N | Immediate | Close | Retest |
 |---|---:|---:|---:|---:|
-| 3m | 32,041 | +0.03 | -0.04 | -0.07 |
-| 10m | 7,656 | +0.03 | -0.02 | -0.08 |
 | 1h | 3,399 | +0.04 | 0.00 | -0.02 |
 | 4h | 936 | +0.03 | +0.05 | -0.01 |
 | 1d | 279 | +0.06 | +0.09 | 0.00 |
@@ -739,57 +737,12 @@ Sample: 50,889 break events across 3m/10m/1h/4h/1d, 2000–2026.
 Takeaways:
 
 1. Take the break; do not wait for retest. Retest underperforms everywhere.
-2. Do not wait for textbook 5-bar formation; 1–4 bar boxes carried more edge than full 5-bar boxes on intraday frames.
+2. Do not wait for textbook 5-bar formation; short boxes (1–4 bars) carried more edge than full 5-bar boxes.
 3. Higher timeframes favor bull side; shorting daily compression breaks was negative expectation due to SPY upward drift.
 4. Stops at opposite boundary; realistic TP 0.5–1.0R.
-5. Raw signal is texture, not a standalone exploit: ~51% hit rate, +0.03R median. Stack with trend/time/volatility filters.
+5. Even on 1h+, the raw signal is modest (+0.04 to +0.09R median). Stack with trend/time/volatility filters; do not trade it standalone at size.
 
-Caveats: 1h PO/data issue; 1d sample underpowered; ambiguous outside bars excluded.
-
-#### 9.2.1 Bilbo Box × higher-timeframe Phase Oscillator refinement
-
-Refined studies: HTF PO joins are lookahead-safe (`merge_asof` after shifting HTF timestamps forward by one full bar). The original fixed-window R study is now exploratory only. The actionable rebuild uses the trader's corrected bracket exits: R = **box height** (`box_high - box_low` price range), not time width; T1 = 0.5R, T2 = 1R, T3 = 2R; stop = opposite box side; time stop = 15 bars; same-bar target/stop ambiguity waits for candle close instead of stop-first.
-
-Original fixed-window headline, now superseded for trading decisions: **same-direction PO expansion did not improve Bilbo outcomes**.
-
-| Cut | N | Net-R median | Net+% | Stop% |
-|---|---:|---:|---:|---:|
-| 3m bull baseline | 16,642 | +0.049 | 51.5% | 32.7% |
-| 3m bull + 10m `bull_exp` | 4,849 | +0.042 | 51.1% | 33.4% |
-| 10m bear baseline | 3,691 | -0.012 | 49.2% | 28.7% |
-| 10m bear + 1h `bear_exp` | 1,067 | -0.024 | 49.1% | 28.8% |
-
-Bracket-exit rebuild headline:
-
-| Cohort | N | T1 0.5H | T2 1H | T3 2H | Stop | Timeout |
-|---|---:|---:|---:|---:|---:|---:|
-| 3m bull baseline | 18,067 | 62.4% | 38.7% | 14.0% | 37.6% | 48.4% |
-| 3m bull + 10m compression | 8,752 | 61.9% | 38.0% | 13.1% | 36.7% | 50.2% |
-| 3m bull + 10m low zone | 612 | 60.3% | 34.6% | 11.6% | 43.5% | 44.9% |
-| 10m bear baseline | 5,224 | 59.3% | 36.4% | 14.6% | 29.8% | 55.6% |
-| 10m bear + 1h compression | 2,304 | 60.5% | 38.1% | 16.3% | 29.3% | 54.4% |
-| 10m bear + 1h compression+falling | 1,399 | 62.3% | 38.5% | 16.9% | 26.8% | 56.3% |
-| 10m bear + 1h bull_exp+rising | 411 | 53.0% | 32.1% | 11.9% | 32.1% | 56.0% |
-
-3-contract same-direction PO-confirmed P&L model (3 contracts; one off at T1/T2/T3; no stop move after T1; after T2 final-contract stop moves to the break-side box edge — box top for bull breaks, box bottom for bear breaks; P&L in SPY points summed across contracts):
-
-| Strategy bucket | Trades | T1 | T2 | T3 | Stops | Timeouts | Win% | Total P&L pts | Avg/trade |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| 3m bull + 10m bull_exp+rising | 2,419 | 1,525 (63.0%) | 951 (39.3%) | 327 (13.5%) | 1,031 (42.6%) | 1,061 (43.9%) | 57.1% | +161.8 | +0.067 |
-| 10m bear + 1h bear_exp+falling | 715 | 428 (59.9%) | 251 (35.1%) | 80 (11.2%) | 252 (35.2%) | 383 (53.6%) | 55.4% | +51.4 | +0.072 |
-
-Operational refinement:
-
-1. Do **not** use same-direction PO expansion as a green-light by itself; it mostly reduces sample without improving edge.
-2. Use HTF PO as an **anti-filter**:
-   - Skip 3m bull Bilbo breaks when 10m PO is in low/accumulation: n=572, Net-R median -0.079, Net+ 47.4%, Stop 38.3%.
-   - Skip 10m bear Bilbo breaks when 1h PO is `bull_exp+rising`: n=266, Net-R median -0.172, Net+ 43.6%, Stop 33.8%.
-3. Under the bracket-exit rebuild, **10m bear + 1h compression** survived modestly as constructive (T2 38.1% vs 36.4% baseline; stop 29.3% vs 29.8%); the cleaner sub-bucket is `compression+falling` (T2 38.5%, stop 26.8%).
-4. Under bracket exits, **3m bull + 10m compression is not a green-light**: it lowers stops slightly but also lowers T2/T3 hit rates. The stronger 3m use remains anti-filtering low-zone 10m PO.
-5. Same-direction PO confirmation with trade management is slightly positive in points (`bull_exp+rising` for 3m bull, `bear_exp+falling` for 10m bear), but the edge is modest (+0.063 and +0.096 SPY points/trade respectively).
-6. For future Bilbo studies, lead with N, T1/T2/T3 hit %, stop %, timeout %, and median bars; keep fixed-window R as secondary texture only.
-
-Caveat: the 10m PO cut is cleaner; the 1h PO cut inherits the known wick-clip-era 1h PO accuracy gap versus TradingView, so use 1h state/zone directionally, not tick-for-tick.
+Caveats: 1h PO/data issue; 1d sample underpowered; ambiguous outside bars excluded. A follow-up higher-timeframe PO study found same-direction PO expansion does NOT improve Bilbo outcomes (tested on intraday cohorts) — do not treat PO confirmation as a green-light.
 
 ---
 
@@ -1041,7 +994,7 @@ Conditioned on previous week weekly PO:
 **Entry**
 
 - At expansion confirmation / break of compression range.
-- For Bilbo Box, immediate break beats retest historically.
+- For Bilbo Box (1h+ frames only), immediate break beats retest historically.
 
 **Invalidation**
 
@@ -1208,7 +1161,7 @@ Conditioned on previous week weekly PO:
 | Monthly GG | Bear monthly moves faster; monthly moves take weeks |
 | Compression expansion | 180m+ compression + bullish EMA21>48 = 83.7% bullish expansion |
 | 4h PO + OpEx | Extended OpEx rollover has 10d tail edge; not immediate |
-| Bilbo Box | Immediate beats retest; retest underperforms |
+| Bilbo Box | 1h+ frames only; immediate beats retest; retest underperforms |
 | Call trigger confirmation | Clean 3m close above trigger → 38.2 hit 97.1%; median 18m |
 | Call→put reversal | PDC recovery 73.7%; downside GG open 75.3%; -1 ATR 18.5% |
 | EMA21 reversion | >4% above daily EMA21 touched EMA21 within 28d in 50/50 episodes |
