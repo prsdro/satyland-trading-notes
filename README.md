@@ -425,11 +425,24 @@ What survived the fix, and what did not:
 - **The mid-zone slope splits were a look-ahead artifact.** Pre-fix, counter-slope mid buckets looked like "avoid" cells (bull Mid+Falling 51.5%, bear Mid+Rising 54.2%). Post-fix they partly *inverted* (63.0% and 69.6%). Do not use 1h PO slope in the mid zone as a filter in either direction.
 - Extreme-zone sample sizes shrank materially under the honest join (bull High+Rising n=372 → 193; bear Low+Falling n=265 → 141): the setup is rarer than previously published.
 
-Continuation beyond 61.8 (to 78.6 / full ATR / 123.6) was published from the same pre-fix pipeline and has **not** been rerun with the corrected join — treat those ladder numbers as unverified and do not size on them.
+Continuation beyond 61.8 (corrected rerun, 2026-07-11, same point-in-time-safe join):
+
+- Bear PO Low+Falling (n=141): 61.8 = 85.1%, 78.6 = 75.9%, full ATR = 63.8%, 123.6 = 46.8%.
+- Bear baseline (n=3,196): 61.8 = 65.4%, 78.6 = 48.7%, full ATR = 32.4%, 123.6 = 19.6%.
+- Bull PO High+Rising (n=193): 61.8 = 71.0%, 78.6 = 56.0%, full ATR = 34.7%, 123.6 = 20.7%.
+- Bull baseline (n=3,421): 61.8 = 62.5%, 78.6 = 43.2%, full ATR = 26.3%, 123.6 = 14.1%.
+
+The continuation story survives the fix slightly smaller: a bearish Bilbo reaches the full ATR (63.8%) at nearly the baseline rate of merely completing the GG (65.4%) — pre-fix this read 66% vs 65%. Letting bearish Bilbo winners run remains supported; bull continuation is a milder 1.3–1.5x baseline.
 
 ### 5.4 10m vs 60m PO
 
-The published claim that the 60m PO was 5–12x more predictive than the 10m PO for GG completion came from a page whose mapped study did not reproduce it, and it predates the look-ahead fix. Treat "prefer 60m PO over 10m for Bilbo" as **unverified** pending a corrected rerun; the corrected §5.3 tables above are the only Bilbo numbers with a clean join.
+Corrected comparison (2026-07-11), both timeframes point-in-time-safe (60m = last fully closed 1h bar; 10m = previous completed 10m bar):
+
+- **60m same-direction extreme**: bull High+Rising +8.5pp over baseline (71.0% vs 62.5%); bear Low+Falling +19.7pp (85.1% vs 65.4%).
+- **10m same-direction extreme is BELOW baseline**: bull High+Rising 52.6% (n=439, −9.9pp); bear Low+Falling 62.1% (n=456, −3.3pp). By the time the 10m PO pins an extreme in the trade direction, the short-term move is stretched and completion odds are worse, not better.
+- The 10m extreme-plus-opposite-slope cells run above baseline (bull High+Falling 79.8%, bear Low+Rising 74.8%) — a curl-back pattern, observed in a single sort, not a validated filter.
+
+Verdict: only the 60m PO carries the Bilbo signal. Do not use the 10m PO as a Bilbo confirmation in either direction.
 
 ### 5.5 Entry optimization
 
@@ -438,7 +451,7 @@ The published claim that the 60m PO was 5–12x more predictive than the 10m PO 
 | Immediate at 38.2 | 63–65% completion, +10% ATR EV; appears on all GG days |
 | 10m EMA8 pullback | 62–63%, +10–12% EV; appears 97% |
 | 10m EMA21 pullback | 58%, +8% EV; appears 88% |
-| 1h EMA21 pullback | 42%, +7–9% EV; appears 57–62%; best R:R 2.3–3.2x |
+| 1h EMA21 pullback | 31–35%, +1.7–3.8% EV; appears 53–57%; best R:R 2.1–3.0x (rerun 2026-07-11 with completed-hour EMAs; thinner than first published) |
 | 50% midpoint | 60%, negative EV (-3%); reward too small vs risk |
 | Trigger pullback | 43–48% completion but 38.2% ATR reward |
 
@@ -448,15 +461,15 @@ Saty doctrine favors entries at ribbon pullbacks when possible; the backtest say
 
 The trigger (23.6%) is the key stop/kill level once GG is active:
 
-- Trigger holds: 84–89% GG completion.
+- Trigger holds: 83–89% GG completion.
 - 10m close back through trigger: 45–51% completion.
 - Delta: -39pp; strongest level-based invalidation signal.
 
 Other warnings:
 
-- 1h EMA21 break: -20 to -28pp delta.
-- 10m EMA48 break: -18 to -20pp delta.
-- 10m EMA21 break: only -6pp, weaker.
+- 1h EMA21 break: -19 to -27pp delta (rerun 2026-07-11 with completed-hour EMAs; barely moved).
+- 10m EMA48 break: -17 to -19pp delta.
+- 10m EMA21 break: only -4 to -5pp, weaker.
 - 10m EMA8 break: noise.
 
 Operational rule: if in a GG trade, a 10m close back through trigger is a major de-risk/cut signal.
@@ -1156,8 +1169,8 @@ Conditioned on previous week weekly PO:
 | Level-to-level | Trigger→38.2 = 67–70% live cohort (79% pooled); 38.2→61.8 = 52–57% live cohort (62.5–65.4% pooled); full ATR cumulative ~2% |
 | Baseline GG | Bull GG 62.5%; Bear GG 65.4% |
 | Bilbo GG (corrected) | Bull PO high-zone 71–74%; Bear PO low-zone 85–87%; mid-zone slope splits carry no signal |
-| Bilbo continuation | Unverified post-fix; do not size on the published ladder |
-| 60m vs 10m PO | Unverified post-fix; corrected §5.3 tables are the only clean Bilbo numbers |
+| Bilbo continuation (corrected) | Bear low+falling reaches full ATR 63.8% (vs 32.4% baseline); bull marquee 34.7% (vs 26.3%) |
+| 60m vs 10m PO (corrected) | Only 60m carries the signal; 10m same-direction extreme runs BELOW baseline (−3 to −10pp) |
 | GG entry | Immediate/EMA8 entries solid; 1h EMA21 best R:R but lower hit |
 | GG invalidation | 10m trigger close break cuts completion by ~39pp |
 | GG timing | Open triggers ~86–88%; late bull weak |
@@ -1213,7 +1226,7 @@ Underlying-level probabilities do not automatically become option-trade probabil
 1. **Research, not advice**: all stats are historical SPY research, not guarantees.
 2. **SPY vs SPX**: backtests are on SPY; SPX options execution/liquidity/settlement differ.
 3. **1h PO caveat**: hourly Phase Oscillator has TradingView mismatch due to extended-hours ATR inflation. Use 60m PO because it tested predictive, but mark uncertainty.
-4. **Bilbo GG look-ahead fix (2026-04-26)**: the original Bilbo GG study classified 10m triggers by the still-unfinished 1h candle's PO (up to 60 min of forward leakage). §5.3 now carries the corrected rerun. Still unverified post-fix: the continuation-beyond-61.8 ladder, the 60m-vs-10m PO comparison, and the weekly Bilbo conditioned splits in §12.1.
+4. **Bilbo GG look-ahead fix (2026-04-26, satellites rerun 2026-07-11)**: the original Bilbo GG study classified 10m triggers by the still-unfinished 1h candle's PO (up to 60 min of forward leakage). §5.3 (completion + continuation ladder) and §5.4 (10m vs 60m) now carry corrected reruns; the GG entry/invalidation studies' 1h EMA joins were also made point-in-time-safe (impact ≤2pp, ordering unchanged). Still unverified post-fix: the weekly Bilbo conditioned splits in §12.1.
 5. **1d Bilbo Box underpowered**: daily Bilbo Box sample n=279; bullish drift drives much of higher-TF bull edge.
 6. **Upward drift bias**: 25-year SPY history favors bull breaks on higher timeframes.
 7. **Extracted doctrine**: some Saty claims come from OCR/vision extraction of screenshots. Use as doctrine/terminology, not validated quant.
