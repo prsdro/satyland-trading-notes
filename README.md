@@ -349,7 +349,6 @@ Saty doctrine: identify market condition first, then apply the matching primary 
 - Gap fill / midpoint fill.
 - Price vs daily 21 EMA extreme reversion.
 - 4h PO leaving extreme/distribution/accumulation.
-- TICK fading at extreme readings.
 
 ### Reversal/exhaustion
 
@@ -855,10 +854,6 @@ Takeaways:
 - Long-dated puts preferred over weeklies when playing the tail.
 - Deep extension (wk/mo ATR ≥1.0) underperforms moderate extension at 5d but has fatter left tails at 10d.
 
-### 10.4 TICK fading
-
-Extracted doctrine: wait until an extreme $TICK reading registers (>+1000 or <-1000), then fade the move; avoid jumping into the froth after the extreme has already hit.
-
 ---
 
 ## 11. Saty discretionary setup foundations
@@ -1131,7 +1126,7 @@ Conditioned on previous week weekly PO:
 **Preconditions**
 
 - Price extended to ±1 ATR or far from ribbon/EMA.
-- PO extreme/leaving extreme, divergence, exhaustion, fired squeeze, or TICK extreme.
+- PO extreme/leaving extreme, divergence, exhaustion, or fired squeeze.
 
 **Entry**
 
