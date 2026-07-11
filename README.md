@@ -749,8 +749,17 @@ Operational pattern:
 - Identify extension into ±1 ATR / extended PO / far-from-ribbon condition.
 - Look for exhaustion: wicks, declining volume, squeeze fired at extreme, PO curling/leaving extreme.
 - Prefer reversal back toward nearer ATR levels, VWAP, EMA/ribbon, or PDC rather than demanding full reversal.
+- Prefer lower-timeframe PO divergence from an extreme before entry.
 - If trend is strong and ribbon remains clean, a ±1 ATR touch may become continuation, not reversion.
 - Manage quickly; lotto/no-stop examples exist in Saty, but for systematic use define invalidation.
+
+Risk doctrine:
+
+- Mean reversion plays are inherently riskier than trend-continuation plays because they fight the current move until proven otherwise.
+- Newer traders should not play these at all. PATIENCE is the edge: wait for extremes, exhaustion, and confirmation instead of trying to top-tick or bottom-tick the move.
+- Lower-timeframe Phase Oscillator divergence off extremes is preferred before considering the trade.
+- Size small; these are quick tactical fades, not conviction trend holds.
+- Take profits quick when the ribbon is thicc.
 
 ### 10.2 Price vs daily 21 EMA reversion
 
@@ -1074,11 +1083,14 @@ Conditioned on previous week weekly PO:
 
 - Price extended to ±1 ATR or far from ribbon/EMA.
 - PO extreme/leaving extreme, divergence, exhaustion, or fired squeeze.
+- Prefer lower-timeframe PO divergence off an extreme before entry.
+- Not for newer traders; mean reversion is inherently riskier and PATIENCE is required.
 
 **Entry**
 
 - Confirmation of rejection/failed continuation.
 - Safer after PO/ribbon confirms, not at first touch in a trend day.
+- Size small; these are quick tactical fades, not conviction trend holds.
 
 **Invalidation**
 
@@ -1088,6 +1100,7 @@ Conditioned on previous week weekly PO:
 **Targets**
 
 - Next ATR level back inward, VWAP, ribbon/EMA, PDC.
+- Take profits quick when the ribbon is thicc.
 
 ### 13.9 4h PO / OpEx rollover put plan
 
